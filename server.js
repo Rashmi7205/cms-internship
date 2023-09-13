@@ -2,9 +2,8 @@ import { config } from "dotenv";
 import express from "express";
 import cloudinary,{v2} from "cloudinary";
 
-import app from './app.js';
-import connectToDb from './Config/mongo.connect.js';
-
+import connectToDb from "./config/dbConnection.js";
+import app from "./app.js";
 
 config();
 
@@ -15,7 +14,7 @@ v2.config({
 });
 
 
-app.listen(process.env.PORT,()=>{
+app.listen(process.env.PORT||5050,()=>{
     connectToDb();
-    console.log(`App is Running on ${process.env.PORT}`);
+    console.log(`Server is Running at ${process.env.PORT}`)
 })

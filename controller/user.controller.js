@@ -51,6 +51,25 @@ const register = async (req,res,next)=>{
             blogs:[]
         });
 
+        if(req.file){
+            await cloudinary.v2.uploader.destroy(user.profilePic.public_id);
+            const result = await cloudinary.v2.uploader.upload(req.file.path,{
+                folder:'blog',
+                width:250,
+                height:250,
+                gravity:'faces',
+                crop:'fill'
+            });
+            if(result){
+                user.profilePic.public_id= result.public_id
+                user.profilePic.secure_url=result.secure_url;
+
+                
+               // await fs.rm( `uploads/${req.file.filename}`);
+            }
+    
+        }
+
         await user.save();
 
         user.password=undefined;
@@ -58,42 +77,6 @@ const register = async (req,res,next)=>{
         const token = await user.genertateJWTToken();
 
         res.cookie('token',token,cookieOption);
-
-
-        const subject = `Registration Successful! Welcome to Our Website`;
-        const html = `<!DOCTYPE html>
-        <html>
-        <head>
-            <title>Registration Successful! Welcome to Our Website</title>
-        </head>
-        <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
-        
-            <div style="background-color: #f4f4f4; padding: 20px;">
-                <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border: 1px solid #e4e4e4;">
-                    <h2 style="color: #333333;">Registration Successful! Welcome to Our Website</h2>
-                    <p>Dear ${user.name},</p>
-                    <p>We are thrilled to welcome you to our community! Your registration to [Website Name] was successful, and we are excited to have you onboard. Get ready to embark on a journey of discovery, learning, and connection.</p>
-                    <p>Here at [Website Name], we are committed to providing you with an enriching and fulfilling experience. Whether you're here to learn, share, connect, or simply explore, our platform offers a myriad of opportunities tailored to your interests.</p>
-                    <p>Now that you're a part of our community, here's what you can expect:</p>
-                    <ol>
-                        <li><strong>Access to Exclusive Content:</strong> Gain access to a wealth of resources, articles, videos, and more that are designed to inspire, educate, and entertain.</li>
-                        <li><strong>Engaging Discussions:</strong> Join conversations on topics that matter to you. Share your insights, ask questions, and learn from fellow members who share your passions.</li>
-                        <li><strong>Personalized Experience:</strong> Our platform is designed to cater to your preferences. As you engage with our content and community, our algorithms will tailor recommendations to suit your interests.</li>
-                        <li><strong>Connect and Collaborate:</strong> Connect with like-minded individuals, experts, and enthusiasts from around the world. Collaborate on projects, exchange ideas, and build meaningful relationships.</li>
-                        <li><strong>Stay Updated:</strong> Receive regular updates on new content, events, and opportunities. Never miss out on what's happening in your areas of interest.</li>
-                    </ol>
-                    <p>To get started, simply log in to your account using your registered email ([User's Email]) and the password you created during registration. If you have any questions, encounter any issues, or need assistance, our support team is here to help. Just drop us a message at [Support Email] and we'll be glad to assist you.</p>
-                    <p>Thank you for choosing [Website Name] as your online destination. We are honored to have you as a part of our community and look forward to seeing the positive impact you will make.</p>
-                    <p>Once again, welcome aboard!</p>
-                    <br>
-                    <p>Best regards,<br>[Rashmi Ranjan]<br><br>[Website Name]<br>[Website Contact Information]</p>
-                </div>
-            </div>
-        
-        </body>
-        </html>
-        `
-        await sendEmail(user.email,subject,html);
 
 
         res.status(200).json({
@@ -143,6 +126,7 @@ const login = async (req,res,next)=>{
 }
 
 
+
 const getProfile = async (req,res,next)=>{
         try{
             if(!req.user){
@@ -161,7 +145,6 @@ const getProfile = async (req,res,next)=>{
             res.status(200).json({
                 success:true,
                 message:"User Fetched Succsessfully",
-                admin:true,
                 user
             });
 
@@ -169,6 +152,8 @@ const getProfile = async (req,res,next)=>{
             return next(new AppError(error.message,400));
         }
 } 
+
+
 
 const resetPassword = async(req,res,next)=>{
     try {
@@ -312,6 +297,7 @@ const logout = async(req,res,next)=>{
     }
 }
 
+
 export {
     register,
     login,
@@ -319,5 +305,5 @@ export {
     changePassword,
     resetPassword,
     deleteUser,
-    logout,
+    logout, 
 }
