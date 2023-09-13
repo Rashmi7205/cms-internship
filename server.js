@@ -2,7 +2,7 @@ import { config } from "dotenv";
 import express from "express";
 import cloudinary,{v2} from "cloudinary";
 
-import connectToDb from "./config/dbConnection.js";
+import connectToDb from "./dbconnection.js";
 import app from "./app.js";
 
 config();
