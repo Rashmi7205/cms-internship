@@ -156,73 +156,7 @@ const getProfile = async (req,res,next)=>{
 
 
 const resetPassword = async(req,res,next)=>{
-    try {
-        const {email} = req.body;
-
-        if(!email){
-            return next(new AppError("Email is Required",400));
-        }
-
-
-        const user = await User.findOne({email});
-
-
-        if(!user){
-            return next(new AppError("User Does not Exist",400));
-        }
-
-    
-        const forgotPasswordToken = await user.generatePasswordResetToken();
-
-        await user.save();
-
-        const subject = `Password Reset Request for ${email}`;
-        const message = `<!DOCTYPE html>
-        <html>
-        <head>
-            <title>Password Reset Request for [Hello World]</title>
-        </head>
-        <body>
-            <h1>Password Reset Request for [Hello World]</h1>
-            <p>Dear [${user.name}],</p>
-            <p><a href="">[${forgotPasswordToken}]</a><br>
-            <p>We have received a request to reset the password for your account on [Hello World]. If you did not initiate this request, please ignore this email.</p>
-        
-            <p>If you did request a password reset, please follow the instructions below to reset your password:</p>
-        
-            <ol>
-                <li>Click on the following link to go to the password reset page: <a href="[Password Reset Link]">Password Reset Link</a></li>
-                <li>Once on the reset page, enter your new password in the designated field.</li>
-                <li>Re-enter the new password to confirm.</li>
-                <li>Click on the "Reset Password" button to complete the process.</li>
-            </ol>
-        
-            <p>Please note that for security reasons, the password reset link will expire in [expiration time, e.g., 15 minute]. If you do not reset your password within this time frame, you will need to initiate the reset process again.</p>
-        
-            <p>If you encounter any issues or need further assistance, please do not hesitate to contact our support team at <a href="mailto:[Support Email Address]">[Support Email Address]</a> or <a href="tel:[Support Phone Number]">[Support Phone Number]</a>.</p>
-        
-            <p>Thank you for using [Website Name].</p>
-        
-            <p>Best regards,<br>
-            The [Website Name] Team</p>
-        
-          
-            Contact: <a href="mailto:[Contact Email Address]">[Contact Email Address]</a> | Phone: <a href="tel:[Contact Phone Number]">[Contact Phone Number]</a></p>
-        </body>
-        </html>
-        `
-
-        await sendEmail(email,subject,message);
-
-        res.status(200).json({
-            success:true,
-            message:`You Received an Email to reset password in ${email}`,
-        });
-
-    } catch (error) {
-       
-        return next(new AppError(error.message,400));
-    }
+   
 }
 
 const changePassword = async (req,res,next)=>{
