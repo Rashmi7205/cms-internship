@@ -12,11 +12,12 @@ import upload from '../middleware/multer.middleware.js';
 import multer from 'multer';
 
 
-const router =Router();
+const router=Router();
 // Register user
 router.post('/register',upload.single('profilePic'),register);
 // login user
 router.post('/login',login);
+router.get('/getprofile',isLoggedIn,getProfile);
 router.post('/reset/password',resetPassword);
 router.post('/reset/password/:resetToken',changePassword);
 router.delete('/delete',isLoggedIn,deleteUser);
