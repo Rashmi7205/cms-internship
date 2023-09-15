@@ -11,10 +11,11 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended:true}));
 
-app.use(cors(
-        origin: 'http://localhost:5173', // Allow requests from this origin
-      credentials: true,
-));
+app.use(cors({
+                origin: 'http://localhost:5173',
+          credentials: true, 
+                }
+            ));
 
 app.get('/',(req,res)=>{
     res.send("Hello World");
