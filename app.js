@@ -33,7 +33,7 @@ app.all('*', (req, res) => {
 
 app.use(errorMiddleware);
 
-const PORT = process.env.PORT || 5050;
+const PORT = process.env.PORT || 5051;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
