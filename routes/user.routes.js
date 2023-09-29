@@ -21,6 +21,6 @@ router.get('/getprofile',isLoggedIn,getProfile);
 router.post('/reset/password',resetPassword);
 router.post('/reset/password/:resetToken',changePassword);
 router.delete('/delete',isLoggedIn,deleteUser);
-router.get('/logout',isLoggedIn,logout);
+router.post('/logout',isLoggedIn,logout);
 
 export default router
