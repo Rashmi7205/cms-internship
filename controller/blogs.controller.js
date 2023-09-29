@@ -1,8 +1,9 @@
-import Blogs from "../model/blog.schema.js";
+import Blogs from "../Model/blog.schema.js";
+import User from '../Model/user.schema.js';
 import AppError from "../utils/apperror.js";
 import mongoose from "mongoose";
 import cloudinary from 'cloudinary';
-import User from '../model/user.schema.js';
+
 
 
 const getBlogs = async (req,res,next)=>{

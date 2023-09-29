@@ -1,5 +1,5 @@
 import AppError from "../utils/apperror.js";
-import User from '../model/user.schema.js';
+import User from '../Model/user.schema.js';
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import emailValidator from 'email-validator';

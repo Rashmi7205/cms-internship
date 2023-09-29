@@ -8,11 +8,15 @@ const upload = multer({
     dest: path.join(__dirname, '../uploads'), // Use a relative path
     limits: { fileSize: 5 * 1024 * 1024 }, // Max size 5 MB
     storage: multer.diskStorage({
+<<<<<<< HEAD
         destination: (req, file, cb) => {
             // Create the 'uploads' directory if it doesn't exist
             const uploadsPath = path.join(__dirname, '../uploads');
             cb(null, uploadsPath);
         },
+=======
+        destination: path.join(__dirname, '../uploads'), // Use a relative path
+>>>>>>> 472cc88a9c46e1a0db6c86be785aa6823aadbfb6
         filename: (_req, file, cb) => {
             cb(null, file.originalname);
         },
@@ -34,3 +38,7 @@ const upload = multer({
 });
 
 export default upload;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 472cc88a9c46e1a0db6c86be785aa6823aadbfb6
