@@ -7,10 +7,10 @@ import errorMiddleware from './middleware/error.middleware.js';
 
 const app = express();
 
-// Enable CORS with credentials
+// Enable CORS to allow all origins with credentials
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: '*',
     credentials: true,
   })
 );
