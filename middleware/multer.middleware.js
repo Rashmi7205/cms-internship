@@ -5,15 +5,15 @@ import multer from 'multer';
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 const upload = multer({
-    dest: path.join(__dirname, '../uploads'), // Use a relative path
-    limits: { fileSize: 5 * 1024 * 1024 }, // Max size 5 MB
+    dest: path.join(__dirname, '../uploads'), 
+    limits: { fileSize: 5 * 1024 * 1024 },
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
             // Create the 'uploads' directory if it doesn't exist
             const uploadsPath = path.join(__dirname, '../uploads');
             cb(null, uploadsPath);
-        },\
-        destination: path.join(__dirname, '../uploads'), // Use a relative path
+        },
+        destination: path.join(__dirname, '../uploads'),
         filename: (_req, file, cb) => {
             cb(null, file.originalname);
         },
